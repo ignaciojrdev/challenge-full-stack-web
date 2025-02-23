@@ -356,6 +356,9 @@ export default {
             ]
                         
         };
+    },
+    mounted(){
+        
     }
 };
 </script>
