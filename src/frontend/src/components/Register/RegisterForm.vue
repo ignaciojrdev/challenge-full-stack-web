@@ -17,6 +17,7 @@
   import { showToast }  from "../../utils/generics/toast.js";
   import LoadingSpinner  from "../../utils/spinners/LoadingSpinner.vue";
   import { eventBus } from "../../events/eventBus.js";
+  
   export default {
     setup(){
       const auth = useAuthStore();
@@ -38,8 +39,7 @@
           if(!this.isValidRegisterForm())
             return this.showMessageRegisterError;
   
-          this.auth.setToken("sdnkfosdnkofsno");
-          this.auth.setUser({"email": this.email});
+          //criar backend
           this.showMessageRegisterSuccess();
           setTimeout(() => {
             this.router.push('/');
