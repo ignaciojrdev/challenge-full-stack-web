@@ -2,6 +2,10 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 
+//gerenciados de estados
+import { createPinia } from 'pinia'
+
+
 //Importação das rotas
 import router from './router/index.js'
 
@@ -22,8 +26,10 @@ const vuetify = createVuetify({
 })
 
 const app = createApp(App)
+const pinia = createPinia()
 
 app.use(router)
 app.use(vuetify)
+app.use(pinia)
 
 app.mount('#app')
