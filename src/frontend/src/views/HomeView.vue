@@ -278,89 +278,89 @@
 </template>
 
 <script>
-export default {
-    name: "Home",
-    data() {
-        return {
-            registerModal: false,
-            listModal: false,
-            editModal: false,
-            deleteModal: false,
+    export default {
+        name: "Home",
+        data() {
+            return {
+                registerModal: false,
+                listModal: false,
+                editModal: false,
+                deleteModal: false,
 
-            //register - variables
-            registerStepByStep: [
-                'Dado que estou na tela de Consulta de Alunos',
-                'Quando clico em Cadastrar Aluno',
-                'Então abre a tela de Cadastro do Aluno',
-                'E exibe os campos obrigatórios vazios',
-            ],
-            confirmRegisterStepByStep: [
-                'Dado que inseri dados válidos nos campos',
-                'Quando clico em Salvar',
-                'Então cria o novo aluno na base',
-                'E retorna mensagem de sucesso',
-            ],
-            cancelRegisterStepByStep: [
-                'Dado que inseri dados válidos nos campos',
-                'Quando clico em Cancelar',
-                'Então retorna para tela Consulta de Alunos',
-                'E não persiste a gravação dos dados no banco',
-            ],
+                //register - variables
+                registerStepByStep: [
+                    'Dado que estou na tela de Consulta de Alunos',
+                    'Quando clico em Cadastrar Aluno',
+                    'Então abre a tela de Cadastro do Aluno',
+                    'E exibe os campos obrigatórios vazios',
+                ],
+                confirmRegisterStepByStep: [
+                    'Dado que inseri dados válidos nos campos',
+                    'Quando clico em Salvar',
+                    'Então cria o novo aluno na base',
+                    'E retorna mensagem de sucesso',
+                ],
+                cancelRegisterStepByStep: [
+                    'Dado que inseri dados válidos nos campos',
+                    'Quando clico em Cancelar',
+                    'Então retorna para tela Consulta de Alunos',
+                    'E não persiste a gravação dos dados no banco',
+                ],
 
-            //students list - variables
-            studentsListStepByStep: [
-                'Dado que estou no Módulo Acadêmico',
-                'Quando clico no menu Alunos',
-                'Então abre a tela de Consulta de Alunos',
-                'E exibe opção Cadastrar Aluno ao topo',
-                'E lista dados dos alunos cadastrados',
-                'E exibe opção Editar por aluno',
-                'E exibe opção Excluir por aluno'
-            ],
+                //students list - variables
+                studentsListStepByStep: [
+                    'Dado que estou no Módulo Acadêmico',
+                    'Quando clico no menu Alunos',
+                    'Então abre a tela de Consulta de Alunos',
+                    'E exibe opção Cadastrar Aluno ao topo',
+                    'E lista dados dos alunos cadastrados',
+                    'E exibe opção Editar por aluno',
+                    'E exibe opção Excluir por aluno'
+                ],
 
-            //edit record - variables
-            editStudentsRecordStepByStep: [
-                "Dado que estou na listagem de alunos",
-                "Quando clico em Editar aluno",
-                "Então abre a tela de Cadastro do Aluno",
-                "E exibe os campos do cadastro preenchidos",
-                "E habilita alteração dos campos editáveis"
-            ],
-            confirmEditStudentsRecordStepByStep:[
-                "Dado que estou na tela de Cadastro do Aluno",
-                "Quando clica em Salvar",
-                "Então grava os dados editáveis na base"
-            ],
-            cancelEditStudentsRecordStepByStep:[
-                "Dado que estou na tela de Cadastro do Aluno",
-                "Quando clica em Cancelar",
-                "Então retorna para a tela de Consulta de Alunos",
-                "E não persiste a gravação dos dados"
-            ],
+                //edit record - variables
+                editStudentsRecordStepByStep: [
+                    "Dado que estou na listagem de alunos",
+                    "Quando clico em Editar aluno",
+                    "Então abre a tela de Cadastro do Aluno",
+                    "E exibe os campos do cadastro preenchidos",
+                    "E habilita alteração dos campos editáveis"
+                ],
+                confirmEditStudentsRecordStepByStep:[
+                    "Dado que estou na tela de Cadastro do Aluno",
+                    "Quando clica em Salvar",
+                    "Então grava os dados editáveis na base"
+                ],
+                cancelEditStudentsRecordStepByStep:[
+                    "Dado que estou na tela de Cadastro do Aluno",
+                    "Quando clica em Cancelar",
+                    "Então retorna para a tela de Consulta de Alunos",
+                    "E não persiste a gravação dos dados"
+                ],
 
-            //delete record - variables
-            deleteStudentsRecordStepByStep: [
-                "Dado que estou na listagem de alunos",
-                "Quando clico em Excluir aluno",
-                "Então exibe a modal de confirmação de exclusão"
-            ],
-            confirmDeleteStudentsRecordStepByStep:[
-               "Dado que estou na modal de confirmação de exclusão",
-                "Quando clico em Confirmar",
-                "Então exclui o registro do aluno"
-            ],
-            cancelDeleteStudentsRecordStepByStep:[
+                //delete record - variables
+                deleteStudentsRecordStepByStep: [
+                    "Dado que estou na listagem de alunos",
+                    "Quando clico em Excluir aluno",
+                    "Então exibe a modal de confirmação de exclusão"
+                ],
+                confirmDeleteStudentsRecordStepByStep:[
                 "Dado que estou na modal de confirmação de exclusão",
-                "Quando clico em Cancelar",
-                "Então fecha a modal e não persiste a exclusão" 
-            ]
-                        
-        };
-    },
-    mounted(){
-        
-    }
-};
+                    "Quando clico em Confirmar",
+                    "Então exclui o registro do aluno"
+                ],
+                cancelDeleteStudentsRecordStepByStep:[
+                    "Dado que estou na modal de confirmação de exclusão",
+                    "Quando clico em Cancelar",
+                    "Então fecha a modal e não persiste a exclusão" 
+                ]
+                            
+            };
+        },
+        mounted(){
+            
+        }
+    };
 </script>
 
 <style scoped>

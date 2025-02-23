@@ -10,9 +10,12 @@
 </template>
   
 <script>
-  import { useAuthStore } from '../../stores/auth';
+  import { useAuthStore } from '../../stores/auth.js';
   import  router  from "../../router/index.js";
-  import { showToast }  from "../../utils/generics/toast";
+  import { showToast }  from "../../utils/generics/toast.js";
+  import LoadingSpinner  from "../../utils/spinners/LoadingSpinner.vue";
+  import { eventBus } from "../../events/eventBus.js";
+
   export default {
     setup(){
       const auth = useAuthStore();
@@ -27,16 +30,22 @@
       };
     },
     methods: {
-      handleLogin() {
-        if(!this.isValidLoginForm())
-          return this.showMessageLoginError();
-        
-        this.auth.setToken("sdkjndlknsdklfnlkdlf");
-        this.auth.setUser({"email": this.email});
-        this.showMessageLoginSuccess();
-        setTimeout(() => {
-          this.router.push('/');
-        }, 4000);
+      async handleRegister() {
+        try{
+          this.showSpinner();
+          if(!this.isValidRegisterForm())
+            return this.showMessageRegisterError;
+
+          //criar backend
+          this.showMessageRegisterSuccess();
+          setTimeout(() => {
+            this.router.push('/');
+            this.hideSpinner();
+          }, 2000);
+        }catch(e){
+          this.hideSpinner();
+          showMessageGenericError();
+        }
       },
       isValidLoginForm(){
         return this.isValidEmail() && this.isValidPassword();
@@ -52,6 +61,12 @@
       },
       showMessageLoginError() {
         showToast.error("Wrong email or password!");
+      },
+      showSpinner(){
+        eventBus.emit("show-spinner", document.getElementById('form-container'));
+      },
+      hideSpinner(){
+        eventBus.emit("hide-spinner");
       }
     },
   };

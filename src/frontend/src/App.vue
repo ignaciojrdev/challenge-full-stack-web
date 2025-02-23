@@ -9,11 +9,13 @@
   </v-app>
 </template>
 
-<script>
-import HeaderBar from './components/Header/HeaderBar.vue';
-export default {
-  components:{
-    HeaderBar
-  }
-}
+<script setup>
+  import { onMounted } from 'vue'
+  import { useAuthStore } from './stores/auth'
+  import HeaderBar from './components/Header/HeaderBar.vue'
+
+  onMounted(() => {
+    const authStore = useAuthStore();
+    authStore.initializeAuth()
+  })
 </script>
