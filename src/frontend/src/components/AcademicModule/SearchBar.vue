@@ -10,7 +10,7 @@
       class="search-input"
     />
 
-    <v-btn color="primary" @click="$emit('search', query)">Search</v-btn>
+    <v-btn color="primary" @click="$emit('search', query)">Search: Name</v-btn>
     <v-btn color="orange" @click="$emit('register')">Register student</v-btn>
   </v-container>
 </template>
@@ -42,7 +42,6 @@ export default {
   padding: 12px;
   border-radius: 8px;
   gap: 10px;
-  
 }
 
 .search-input {
