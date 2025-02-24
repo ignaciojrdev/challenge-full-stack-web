@@ -11,14 +11,12 @@
       </v-card-text>
     </v-card>
   </v-container>
-  <LoadingSpinner />
 </template>
 
 <script>
 import { useAuthStore } from '../../stores/auth.js';
 import router from "../../router/index.js";
 import { showToast } from "../../utils/generics/toast.js";
-import LoadingSpinner from "../../utils/spinners/LoadingSpinner.vue";
 import { eventBus } from "../../events/eventBus.js";
 
 export default {
@@ -79,10 +77,7 @@ export default {
     hideSpinner() {
       eventBus.emit("hide-spinner");
     }
-  },
-  components: {
-    LoadingSpinner
-  },
+  }
 };
 </script>
 

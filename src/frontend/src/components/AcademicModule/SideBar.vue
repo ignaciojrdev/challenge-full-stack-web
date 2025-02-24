@@ -13,9 +13,8 @@
         :class="{ 'active': selectedView === item.view }"
       >
         <v-list-item-content>
-          <v-list-item-title>{{ item.label }}</v-list-item-title>
+          <v-list-item-title>{{ item.label }} <v-icon v-if="selectedView === item.view">mdi-arrow-right</v-icon> </v-list-item-title>
         </v-list-item-content>
-        <v-icon v-if="selectedView === item.view">mdi-arrow-right</v-icon>
       </v-list-item>
     </v-list>
   </v-navigation-drawer>
@@ -28,6 +27,7 @@ export default {
       selectedView: "students",
       menuItems: [
         { label: "Students", view: "students" }
+
       ]
     };
   },
