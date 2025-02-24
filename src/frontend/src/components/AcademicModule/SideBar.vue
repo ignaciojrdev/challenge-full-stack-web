@@ -25,7 +25,7 @@
 export default {
   data() {
     return {
-      selectedView: "students", // Define a primeira opção como selecionada por padrão
+      selectedView: "students",
       menuItems: [
         { label: "Students", view: "students" }
       ]
