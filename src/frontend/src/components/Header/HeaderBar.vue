@@ -1,14 +1,11 @@
 <template>
   <div>
-    <!-- Overlay para fechar o menu ao clicar fora -->
     <div v-if="isOpen" class="overlay" @click="closeMenu"></div>
 
-    <!-- Botão do menu -->
     <button @click="toggleMenu" class="menu-button">
       ☰
     </button>
 
-    <!-- Menu lateral -->
     <nav :class="{ open: isOpen }">
       <router-link to="/" @click="closeMenu">Home</router-link>
       <router-link v-if="!auth.user" to="/Login" @click="closeMenu">Login</router-link>
@@ -60,7 +57,6 @@
     z-index: 9098;
   }
 
-  /* Botão do menu */
   .menu-button {
     position: fixed;
     top: 15px;
@@ -85,7 +81,6 @@
     transform: scale(0.95);
   }
 
-  /* Menu lateral */
   nav {
     position: fixed;
     top: 0;
@@ -105,7 +100,6 @@
     left: 0;
   }
 
-  /* Links do menu */
   nav a {
     text-decoration: none;
     color: white;
@@ -122,7 +116,6 @@
     background: #1abc9c;
   }
 
-  /* Botão de logout */
   .logout-button {
     background: none;
     border: none;

@@ -1,15 +1,19 @@
 <template>
-    <div class="form-container" id="form-container">
-      <h2>Register</h2>
-      <form @submit.prevent="handleRegister">
-        <input type="text" v-model="name" placeholder="Nome" required />
-        <input type="email" v-model="email" placeholder="E-mail" required />
-        <input type="password" v-model="password" placeholder="Senha" required />
-        <button type="submit">Submit</button>
-      </form>
-    </div>
-    <LoadingSpinner />
-  </template>
+  <v-container class="form-container" id="form-container" fluid>
+    <v-card>
+      <v-card-title>Register</v-card-title>
+      <v-card-text>
+        <v-form @submit.prevent="handleRegister">
+          <v-text-field v-model="name" label="Name" required></v-text-field>
+          <v-text-field v-model="email" label="E-mail" type="email" required></v-text-field>
+          <v-text-field v-model="password" label="Password" type="password" required></v-text-field>
+          <v-btn type="submit" color="primary" block>Submit</v-btn>
+        </v-form>
+      </v-card-text>
+    </v-card>
+  </v-container>
+  <LoadingSpinner />
+</template>
   
   <script>
   import { useAuthStore } from '../../stores/auth.js';
@@ -17,7 +21,7 @@
   import { showToast }  from "../../utils/generics/toast.js";
   import LoadingSpinner  from "../../utils/spinners/LoadingSpinner.vue";
   import { eventBus } from "../../events/eventBus.js";
-  
+
   export default {
     setup(){
       const auth = useAuthStore();
@@ -39,11 +43,13 @@
           if(!this.isValidRegisterForm())
             return this.showMessageRegisterError;
   
+          this.auth.setToken("sdnkfosdnkofsno");
+          this.auth.setUser({"email": this.email});
           //criar backend
           this.showMessageRegisterSuccess();
           setTimeout(() => {
-            this.router.push('/');
             this.hideSpinner();
+            this.router.push('/');
           }, 2000);
         }catch(e){
           this.hideSpinner();
@@ -69,7 +75,7 @@
         showToast.error("Something is wrong! ");
       },
       showSpinner(){
-        eventBus.emit("show-spinner", document.getElementById('form-container'));
+        eventBus.emit("show-spinner", document.body);
       },
       hideSpinner(){
         eventBus.emit("hide-spinner");

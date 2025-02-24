@@ -1,19 +1,24 @@
 <template>
-  <aside class="sidebar">
-    <div class="logo">EdTech</div>
-    <h2 class="module-title">Academic Module</h2>
-    <ul>
-      <li 
-        v-for="item in menuItems" 
-        :key="item.view" 
-        @click="navigateTo(item.view)" 
-        :class="{ active: selectedView === item.view }"
+  <v-navigation-drawer app class="sidebar">
+    <v-list>
+      <v-list-item class="logo">
+        EdTech
+      </v-list-item>
+      <v-divider></v-divider>
+      <v-list-item-title class="module-title">Academic Module</v-list-item-title>
+      <v-list-item
+        v-for="item in menuItems"
+        :key="item.view"
+        @click="navigateTo(item.view)"
+        :class="{ 'active': selectedView === item.view }"
       >
-        {{ item.label }}
-        <span class="arrow" v-if="selectedView === item.view">➜</span>
-      </li>
-    </ul>
-  </aside>
+        <v-list-item-content>
+          <v-list-item-title>{{ item.label }}</v-list-item-title>
+        </v-list-item-content>
+        <v-icon v-if="selectedView === item.view">mdi-arrow-right</v-icon>
+      </v-list-item>
+    </v-list>
+  </v-navigation-drawer>
 </template>
 
 <script>
@@ -39,15 +44,14 @@ export default {
 .sidebar {
   width: 200px;
   background: #2c3e50;
-  padding: 15px;
-  min-height: 100vh;
   color: white;
+  height: 95vh;
 }
 .logo {
   font-size: 20px;
   font-weight: bold;
   text-align: center;
-  margin-bottom: 10px;
+  padding: 15px 0;
 }
 .module-title {
   background: #1a252f;
@@ -56,36 +60,19 @@ export default {
   text-align: center;
   font-size: 14px;
   border-radius: 5px;
+  margin: 10px;
 }
-.sidebar ul {
-  list-style: none;
-  padding: 0;
-}
-.sidebar li {
+.v-list-item {
   padding: 12px;
   cursor: pointer;
-  transition: background 0.3s, padding 0.3s;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  transition: background 0.3s;
   border-radius: 5px;
 }
-.sidebar li:hover {
+.v-list-item:hover {
   background: rgba(255, 255, 255, 0.1);
 }
-.sidebar li.active {
+.v-list-item.active {
   background: #34495e;
   font-weight: bold;
-  padding-left: 15px;
-}
-.sidebar li .arrow {
-  opacity: 0;
-  transform: translateX(-5px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
-  font-size: 18px;
-}
-.sidebar li.active .arrow {
-  opacity: 1;
-  transform: translateX(0);
 }
 </style>
