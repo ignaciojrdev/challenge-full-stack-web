@@ -42,6 +42,7 @@ export default {
   padding: 12px;
   border-radius: 8px;
   gap: 10px;
+  
 }
 
 .search-input {
