@@ -100,6 +100,8 @@
     methods: {
       closeModal() {
         this.$emit("update:show", false);
+        if(!this.editing && !this.deleting)
+          this.clearModal();
       },
       saveStudent() {
         this.closeModal();
@@ -107,6 +109,12 @@
       deleteStudent(){
         //delete student
         this.closeModal();
+      },
+      clearModal(){
+        this.form.name = ''
+        this.form.ra = ''
+        this.form.cpf = ''
+        this.form.email = ''
       }
     },
   };
