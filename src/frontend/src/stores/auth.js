@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia'
 import router from '../router'
 import Cookies from 'js-cookie'
+import { eventBus } from "../events/eventBus.js";
+import { showToast }  from "../utils/generics/toast.js";
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
@@ -29,11 +31,12 @@ export const useAuthStore = defineStore('auth', {
     },
     async initializeAuth() {
       const token = Cookies.get('token')
-
-      if(!token)
-        this.logout()
-        
+      if(!token){
+        this.logout();
+        return this.showMessageCookieNotFound();
+      }
       try {
+        this.showSpinner();
         this.token = token
         // Simulação de requisição para obter o usuário logado (substitua pela API real)
         /*const response = await fetch('/api/me', {
@@ -46,11 +49,31 @@ export const useAuthStore = defineStore('auth', {
           this.logout() // Remove token inválido
         }*/
         //criar backend aqui
-        //this.user = {"email": "tetse@gmail.com"}
+        this.user = {"email": "tetse@gmail.com"}
+        setTimeout(() => {
+          this.showMessageCookieAuthSuccess();
+          this.hideSpinner();
+        }, 2000);
       } catch (error) {
-        console.error('Erro ao autenticar:', error)
+        this.showMessageCookieAuthError();
+        this.hideSpinner();
         this.logout()
       }
+    },
+    showSpinner(){
+      eventBus.emit("show-spinner", document.body);
+    },
+    hideSpinner(){
+      eventBus.emit("hide-spinner");
+    },
+    showMessageCookieNotFound() {
+      showToast.warning("To see other modules, Log in.");
+    },
+    showMessageCookieAuthSuccess() {
+      showToast.success("Authenticated!");
+    },
+    showMessageCookieAuthError() {
+      showToast.success("Something wrong with your authentication. Log in again.");
     }
   }
 })

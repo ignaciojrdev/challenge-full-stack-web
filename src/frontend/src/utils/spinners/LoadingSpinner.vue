@@ -6,13 +6,7 @@ export default {
     return {
       spinner: null,
       isLoading: false,
-    };
-  },
-  methods: {
-    showSpinner(target) {
-      this.isLoading = true;
-      //const target = this.$refs.spinnerContainer;
-      this.spinner = new Spinner({
+      configSpinner: {
         lines: 12,
         length: 7,
         width: 5,
@@ -24,9 +18,16 @@ export default {
         speed: 1,
         rotate: 0,
         animation: "spinner-line-fade-quick",
-        zIndex: 2e9,
+        zIndex: 2000000000,
         className: "spinner",
-      }).spin(target);
+      }
+    };
+  },
+  methods: {
+    showSpinner(target) {
+      this.isLoading = true;
+      //target = this.$refs.spinnerContainer;
+      this.spinner = new Spinner(this.configSpinner).spin(target);
     },
     hideSpinner() {
       this.isLoading = false;
@@ -38,7 +39,7 @@ export default {
   mounted() {
     eventBus.on("show-spinner", (target) => this.showSpinner(target));
     eventBus.on("hide-spinner", () => this.hideSpinner());
-  }
+  },
 };
 </script>
 

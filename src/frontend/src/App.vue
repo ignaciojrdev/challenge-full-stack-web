@@ -4,18 +4,28 @@
       <v-container>
         <HeaderBar />
         <router-view />
+        <LoadingSpinner />
       </v-container>
     </v-main>
   </v-app>
 </template>
 
-<script setup>
-  import { onMounted } from 'vue'
-  import { useAuthStore } from './stores/auth'
-  import HeaderBar from './components/Header/HeaderBar.vue'
+<script>
+import { onMounted, defineComponent } from 'vue';
+import { useAuthStore } from './stores/auth';
+import HeaderBar from './components/Header/HeaderBar.vue';
+import LoadingSpinner from './utils/spinners/LoadingSpinner.vue';
 
-  onMounted(() => {
+export default defineComponent({
+  components: {
+    HeaderBar,
+    LoadingSpinner
+  },
+  setup() {
     const authStore = useAuthStore();
-    authStore.initializeAuth()
-  })
+    onMounted(() => {
+      authStore.initializeAuth();
+    });
+  }
+});
 </script>

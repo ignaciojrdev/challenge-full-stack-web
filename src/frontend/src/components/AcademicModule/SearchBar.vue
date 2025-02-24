@@ -1,9 +1,18 @@
 <template>
-  <div class="search-bar">
-    <input type="text" placeholder="Digite sua busca" v-model="query" />
-    <button class="btn-primary" @click="$emit('search', query)">Pesquisar</button>
-    <button class="btn-secondary" @click="$emit('register')">Cadastrar Aluno</button>
-  </div>
+  <v-container class="search-bar" fluid>
+    <v-text-field
+      v-model="query"
+      placeholder="Type here"
+      variant="outlined"
+      density="comfortable"
+      color="primary"
+      hide-details
+      class="search-input"
+    />
+
+    <v-btn color="primary" @click="$emit('search', query)">Search</v-btn>
+    <v-btn color="orange" @click="$emit('register')">Register student</v-btn>
+  </v-container>
 </template>
 
 <script>
@@ -34,45 +43,10 @@ export default {
   border-radius: 8px;
   gap: 10px;
 }
-.search-bar input {
+
+.search-input {
   flex: 1;
-  padding: 10px;
-  border: 2px solid #34495e;
+  background: white;
   border-radius: 5px;
-  background: #1a252f;
-  color: white;
-  outline: none;
-  transition: border-color 0.3s;
-}
-.search-bar input::placeholder {
-  color: #95a5a6;
-}
-.search-bar input:focus {
-  border-color: #3498db;
-}
-.btn-primary,
-.btn-secondary {
-  padding: 10px 15px;
-  border: none;
-  cursor: pointer;
-  font-weight: bold;
-  border-radius: 5px;
-  transition: background 0.3s, transform 0.2s;
-}
-.btn-primary {
-  background: #3498db;
-  color: white;
-}
-.btn-primary:hover {
-  background: #2980b9;
-  transform: scale(1.05);
-}
-.btn-secondary {
-  background: #e67e22;
-  color: white;
-}
-.btn-secondary:hover {
-  background: #d35400;
-  transform: scale(1.05);
 }
 </style>
