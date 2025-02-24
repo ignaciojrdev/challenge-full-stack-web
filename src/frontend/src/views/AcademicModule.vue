@@ -3,12 +3,6 @@
     <Sidebar @changeView="setView" />
 
     <v-main class="content">
-      <v-card class="header mb-4">
-        <v-card-title>
-          {{ "Consulta de alunos" }}
-        </v-card-title>
-      </v-card>
-
       <SearchBar
         :searchQuery="searchQuery"
         @search="search"
