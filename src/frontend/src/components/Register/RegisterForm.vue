@@ -7,6 +7,7 @@
           <v-text-field v-model="name" label="Name" required></v-text-field>
           <v-text-field v-model="email" label="E-mail" type="email" required></v-text-field>
           <v-text-field v-model="password" label="Password" type="password" required></v-text-field>
+          <v-select label="Tipo de Usuário" v-model="type" :items="['Student', 'Admin']" prepend-icon="mdi-account-group" required />
           <v-btn type="submit" color="primary" block>Submit</v-btn>
         </v-form>
       </v-card-text>
@@ -19,7 +20,7 @@
   import  router  from "../../router/index.js";
   import { showToast }  from "../../utils/generics/toast.js";
   import { eventBus } from "../../events/eventBus.js";
-
+  import axios from 'axios';
   export default {
     setup(){
       const auth = useAuthStore();
@@ -32,6 +33,7 @@
         email: "",
         password: "",
         successMessage: "",
+        type: ""
       };
     },
     methods: {
@@ -40,18 +42,29 @@
           this.showSpinner();
           if(!this.isValidRegisterForm())
             return this.showMessageRegisterError;
-  
-          this.auth.setToken("sdnkfosdnkofsno");
-          this.auth.setUser({"email": this.email});
-          //criar backend
+
+          await axios.post(`${import.meta.env.VITE_API_URL}/register`, {
+            username: this.name, 
+            password: this.password, 
+            type: this.type,
+            email: this.email
+          },
+          {
+            withCredentials: true, // Inclui cookies na requisição (importante para algumas APIs)
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
           this.showMessageRegisterSuccess();
           setTimeout(() => {
             this.hideSpinner();
-            this.router.push('/');
+            this.$emit("redirectLogin", true);
           }, 2000);
         }catch(e){
           this.hideSpinner();
-          showMessageGenericError();
+          if(e.response)
+            return this.showMessageGenericError(e.response.data.message);
+          return this.showMessageGenericError(e.message);
         }
       },
       isValidRegisterForm(){
@@ -69,15 +82,15 @@
       showMessageRegisterError() {
         showToast.error("Wrong email or password!");
       },
-      showMessageGenericError() {
-        showToast.error("Something is wrong! ");
+      showMessageGenericError(message = '') {
+        showToast.error("Something is wrong! " + message);
       },
       showSpinner(){
         eventBus.emit("show-spinner", document.body);
       },
       hideSpinner(){
         eventBus.emit("hide-spinner");
-      }
+      },
     }
   };
   </script>

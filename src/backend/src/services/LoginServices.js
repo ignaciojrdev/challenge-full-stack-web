@@ -1,5 +1,7 @@
 const jwt = require("jsonwebtoken");
-const authRepository = require("../repositories/authRepository");
+const authRepository = require("../repositories/LoginRepositories");
+const bcrypt = require("bcryptjs");
+
 require("dotenv").config();
 
 const authenticateUser = (username, password) => {
@@ -20,4 +22,28 @@ const authenticateUser = (username, password) => {
   return token;
 };
 
-module.exports = { authenticateUser };
+const registerUser = async (username, password, type = "common", email = null) => {
+  if (!username || !password) {
+    throw new Error("Username and password are required.");
+  }
+
+  const existingUser = await authRepository.findUserByUsername(username);
+  if (existingUser) {
+    throw new Error("Username already exists.");
+  }
+
+  const existingEmail = await authRepository.findUserByEmail(email);
+  if (existingEmail) {
+    throw new Error("Email already exists.");
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 10); // Criptografando a senha
+
+  const newUser = await authRepository.createUser(username, hashedPassword, type, email);
+  return newUser;
+};
+
+module.exports = { 
+  authenticateUser,
+  registerUser 
+};
