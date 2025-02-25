@@ -13,13 +13,18 @@ const User = new EntitySchema({
       type: "varchar",
       unique: true,
     },
+    email: {
+      type: "varchar",
+      unique: true,
+      nullable: true,
+    },
     password: {
       type: "varchar",
     },
     type: {
       type: "enum",
-      enum: ["common", "admin"],
-      default: "common",
+      enum: ["Student", "Admin"],
+      default: "Student",
     },
   },
 });

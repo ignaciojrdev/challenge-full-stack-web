@@ -10,7 +10,7 @@
             <LoginForm />
         </div>
         <div v-show="!isModalLogin">
-            <RegisterForm />
+            <RegisterForm @redirectLogin="redirectLogin"/>
         </div>  
       </div>
     </div>
@@ -29,6 +29,11 @@
       return {
         isModalLogin: true
       };
+    },
+    methods:{
+      redirectLogin(){
+        this.isModalLogin = true
+      }
     }
   };
 </script>

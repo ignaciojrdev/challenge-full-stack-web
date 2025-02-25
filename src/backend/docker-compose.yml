@@ -29,7 +29,7 @@ services:
       DB_PASS: password
       DB_NAME: meu_banco
     env_file:
-      - ./backend/.env
+      - ./.env
     volumes:
       - .:/app
       - /app/node_modules
