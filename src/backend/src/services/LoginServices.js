@@ -25,7 +25,7 @@ const loginUser = async(username, password) => {
   return token;
 };
 
-const registerUser = async (username, password, type = "common", email = 'Student') => {
+const registerUser = async (username, password, email = 'Student') => {
   if (!username || !password) {
     throw new Error("Username and password are required.");
   }
@@ -35,14 +35,9 @@ const registerUser = async (username, password, type = "common", email = 'Studen
     throw new Error("Username already exists.");
   }
 
-  const existingEmail = await authRepository.findUserByEmail(email);
-  if (existingEmail) {
-    throw new Error("Email already exists.");
-  }
-
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  const newUser = await authRepository.createUser(username, hashedPassword, type, email);
+  const newUser = await authRepository.createUser(username, hashedPassword, email);
   return newUser;
 };
 

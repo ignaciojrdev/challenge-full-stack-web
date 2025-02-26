@@ -7,12 +7,8 @@ const findUserByUsername = async (username) => {
   return await userRepository.findOne({ where: { username } });
 };
 
-const findUserByEmail = async (email) => {
-  return await userRepository.findOne({ where: { email } });
-};
-
-const createUser = async (username, password, type, email) => {
-  const user = userRepository.create({ username, password, type, email });
+const createUser = async (username, password, email) => {
+  const user = userRepository.create({ username, password, email });
   return await userRepository.save(user);
 };
 
