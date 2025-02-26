@@ -44,12 +44,14 @@ export const useAuthStore = defineStore('auth', {
 
         if (!response.ok) {
           this.showMessageCookieAuthError();
-          this.hideSpinner();
+          setTimeout(() => {
+            this.hideSpinner();
+          }, 2000);
           return this.logout()
         }
         
+        this.showMessageCookieAuthSuccess();
         setTimeout(() => {
-          this.showMessageCookieAuthSuccess();
           this.hideSpinner();
         }, 2000);
       } catch (error) {
