@@ -22,30 +22,36 @@
                 </v-col>
                 <v-col cols="12">
                     <v-text-field 
-                    label="E-mail" 
-                    placeholder="E-mail" 
-                    v-model="form.email" 
-                    outlined dense
-                    :readonly="deleting"
+                        label="E-mail" 
+                        placeholder="E-mail" 
+                        v-model="form.email" 
+                        outlined 
+                        dense
+                        :readonly="deleting"
+                        :rules="[rules.required, rules.email]"
                     />
                 </v-col>
+
                 <v-col cols="12">
                     <v-text-field 
                     label="RA" 
                     placeholder="RA" 
                     v-model="form.ra" 
                     outlined dense 
-                    :readonly="editing || deleting"
+                    :readonly="true"
                     />
                 </v-col>
                 <v-col cols="12">
-                    <v-text-field 
+                  <v-text-field 
                     label="CPF" 
                     placeholder="CPF" 
                     v-model="form.cpf" 
-                    outlined dense 
+                    v-mask="'###.###.###-##'"
+                    outlined 
+                    dense
                     :readonly="editing || deleting"
-                    />
+                    :rules="[rules.required, rules.cpf]"
+                  />
                 </v-col>
             </v-row>
           </v-form>
@@ -63,7 +69,16 @@
   </template>
   
   <script>
+  import { mask } from "vue-the-mask";
+  import { useAuthStore } from '../../stores/auth.js';
+  import axios from "axios";
+  import { showToast } from "../../utils/generics/toast.js";
   export default {
+    directives: { mask },
+    setup() {
+      const auth = useAuthStore();
+      return { auth };
+    },
     props: {
       show: Boolean,
       nameProp: String,
@@ -81,6 +96,11 @@
           ra: this.raProp || "",
           cpf: this.cpfProp || "",
         },
+        rules: {
+          required: v => !!v || 'Campo obrigatório',
+          email: v => /.+@.+\..+/.test(v) || 'E-mail inválido',
+          cpf: v => this.validateCPF(v) || 'CPF inválido',
+        }
       };
     },
     watch: {
@@ -98,6 +118,27 @@
       },
     },
     methods: {
+      validateCPF(cpf) {
+        if (!cpf) return false;
+        
+        cpf = cpf.replace(/\D/g, '');
+        
+        if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) return false;
+
+        let add = 0;
+        for (let i = 0; i < 9; i++) add += parseInt(cpf.charAt(i)) * (10 - i);
+        let rev = 11 - (add % 11);
+        if (rev === 10 || rev === 11) rev = 0;
+        if (rev !== parseInt(cpf.charAt(9))) return false;
+
+        add = 0;
+        for (let i = 0; i < 10; i++) add += parseInt(cpf.charAt(i)) * (11 - i);
+        rev = 11 - (add % 11);
+        if (rev === 10 || rev === 11) rev = 0;
+        if (rev !== parseInt(cpf.charAt(10))) return false;
+
+        return true;
+      },
       closeModal() {
         this.$emit("update:show", false);
         if(!this.editing && !this.deleting)
@@ -105,17 +146,95 @@
       },
       saveStudent() {
         this.closeModal();
+        this.saveStudent();
+        this.$emit("fetchStudents", true);
       },
       deleteStudent(){
-        //delete student
         this.closeModal();
+        this.confirmDeleteStudent();
+        this.$emit("fetchStudents", true);
       },
       clearModal(){
         this.form.name = ''
         this.form.ra = ''
         this.form.cpf = ''
         this.form.email = ''
-      }
+      },
+      async saveStudent() {
+        try {
+          const options = {
+            withCredentials: true,
+            headers: {
+              Authorization: `Bearer ${this.auth.getToken()}`,
+              "Content-Type": "application/json"
+            }
+          }
+          if (this.editing) {
+            await axios.put(`${import.meta.env.VITE_API_URL}/students/${this.form.ra}`, {
+              name: this.form.name,
+              email: this.form.email,
+            }, options);
+            this.showUpdatedMessageSuccess();
+          } else {
+            await axios.post(`${import.meta.env.VITE_API_URL}/students`, {
+              name: this.form.name,
+              email: this.form.email,
+              cpf: this.form.cpf,
+            }, options);
+            this.showSavedMessageSuccess();
+          }
+          this.closeModal();
+          this.$emit("fetchStudents", true);
+        } catch (error) {
+          let message = '';
+          if(error.response && error.response.data){
+            message += error.response.data.message || error.response.data.error || "";
+          }else{
+            message += error.message;
+          }
+          this.showSaveMessageError(message);
+        }
+        this.closeModal();
+        this.$emit("fetchStudents", true);
+      },
+      async confirmDeleteStudent() {
+        try {
+          await axios.delete(`${import.meta.env.VITE_API_URL}/students/${this.form.ra}`,{
+            withCredentials: true,
+            headers: {
+              Authorization: `Bearer ${this.auth.getToken()}`,
+              "Content-Type": "application/json"
+            }
+          });
+          this.showModalEditOrRegisterStudent = false;
+          this.showDeleteMessageSuccess();
+        } catch (error) {
+          let message = '';
+          if(error.response && error.response.data){
+            message += error.response.data.message || error.response.data.error || "";
+          }else{
+            message += error.message;
+          }
+          this.showSaveMessageError(message);
+        }
+        this.closeModal();
+        this.$emit("fetchStudents", true);
+      },
+      showMessageLoginSuccess() {
+        showToast.success("Logged in with success!");
+      },
+      showSaveMessageError(message = '') {
+        showToast.error("Something is wrong on save! " + message);
+      },
+      showDeleteMessageSuccess() {
+        showToast.success("Student was deleted!");
+      },
+      showUpdatedMessageSuccess() {
+        showToast.success("Student was updated!");
+      },
+      showSavedMessageSuccess() {
+        showToast.success("Student was saved!");
+      },
     },
   };
   </script>

@@ -18,12 +18,14 @@
 
       <StudentModal 
         v-model:show="showModalEditOrRegisterStudent" 
-        :nameProp="this.studentName" 
-        :emailProp="this.studentEmail" 
-        :raProp="this.studentRa" 
-        :cpfProp="this.studentCpf" 
-        :editing="this.editModal"
-        :deleting="this.deleteModal"/>
+        :nameProp="studentName" 
+        :emailProp="studentEmail" 
+        :raProp="studentRa" 
+        :cpfProp="studentCpf" 
+        :editing="editingModal"
+        :deleting="deleteModal"
+        @fetchStudents="this.fetchStudents()"
+      />
     </v-main>
   </v-container>
 </template>
@@ -33,8 +35,14 @@ import Sidebar from "../components/AcademicModule/Sidebar.vue";
 import SearchBar from "../components/AcademicModule/SearchBar.vue";
 import StudentTable from "../components/AcademicModule/StudentTable.vue";
 import StudentModal from "../components/AcademicModule/StudentModal.vue";
+import { useAuthStore } from '../stores/auth.js';
+import axios from "axios";
 
 export default {
+  setup() {
+    const auth = useAuthStore();
+    return { auth };
+  },
   components: {
     Sidebar,
     SearchBar,
@@ -45,19 +53,15 @@ export default {
     return {
       currentView: "students",
       searchQuery: "",
-      students: [
-        { ra: "101235", name: "Paula Souza", cpf: "121.999.999-99", email: "teste@gmail.com" },
-        { ra: "111687", name: "João Silva", cpf: "122.999.999-99", email: "teste@gmail.com" },
-        { ra: "111365", name: "Marina Miranda", cpf: "123.999.999-99", email: "teste@gmail.com" },
-        { ra: "101299", name: "Maurício Souza", cpf: "124.999.999-99", email: "teste@gmail.com" },
-      ],
+      students: [],
       sortKey: "",
       sortOrder: 1,
       showModalEditOrRegisterStudent: false,
-      studentName: null,
-      studentEmail: null,
-      studentRa: null,
-      studentCpf: null,
+      studentId: null,
+      studentName: "",
+      studentEmail: "",
+      studentRa: "",
+      studentCpf: "",
       editingModal: false,
       deleteModal: false,
     };
@@ -70,6 +74,20 @@ export default {
     },
   },
   methods: {
+    async fetchStudents() {
+      try {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/students`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${this.auth.getToken()}`,
+            "Content-Type": "application/json"
+          }
+        });
+        this.students = response.data;
+      } catch (error) {
+        console.error("Erro ao buscar estudantes:", error);
+      }
+    },
     setView(view) {
       this.currentView = view;
     },
@@ -78,29 +96,32 @@ export default {
     },
     registerStudent() {
       this.showModalEditOrRegisterStudent = true;
-      this.studentName = '';
-      this.studentEmail = '';
-      this.studentRa = '';
-      this.studentCpf = '';
-      this.editModal = false;
+      this.studentId = null;
+      this.studentName = "";
+      this.studentEmail = "";
+      this.studentRa = "";
+      this.studentCpf = "";
+      this.editingModal = false;
       this.deleteModal = false;
     },
     editStudent(student) {
       this.showModalEditOrRegisterStudent = true;
+      this.studentId = student.id;
       this.studentName = student.name;
       this.studentEmail = student.email;
       this.studentRa = student.ra;
       this.studentCpf = student.cpf;
-      this.editModal = true;
+      this.editingModal = true;
       this.deleteModal = false;
     },
     deleteStudent(student) {
       this.showModalEditOrRegisterStudent = true;
+      this.studentId = student.id;
       this.studentName = student.name;
       this.studentEmail = student.email;
       this.studentRa = student.ra;
       this.studentCpf = student.cpf;
-      this.editModal = false;
+      this.editingModal = false;
       this.deleteModal = true;
     },
     sortTable(key) {
@@ -113,6 +134,9 @@ export default {
       });
     },
   },
+  mounted() {
+    this.fetchStudents();
+  },
 };
 </script>
 
@@ -124,12 +148,5 @@ export default {
 .content {
   flex: 1;
   padding: 20px;
-}
-.header {
-  background: #ddd;
-  padding: 10px;
-  font-size: 18px;
-  font-weight: bold;
-  border-radius: 8px;
 }
 </style>

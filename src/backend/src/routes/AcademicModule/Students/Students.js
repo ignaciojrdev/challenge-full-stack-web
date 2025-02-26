@@ -1,10 +1,12 @@
 const express = require("express");
-const StudentsController = require("../../../controllers/StudentController");
+const StudentController = require("../../../controllers/StudentController");
 const authenticateToken = require("../../../middlewares/auth");
 
 const StudentsRoutes = express.Router();
 
-StudentsRoutes.get("/", authenticateToken, (req, res) => StudentsController.getUsers(req, res));
-StudentsRoutes.post("/", authenticateToken, (req, res) => StudentsController.createUser(req, res));
+StudentsRoutes.get("/", authenticateToken, StudentController.getAll);
+StudentsRoutes.post("/", authenticateToken, StudentController.create);
+StudentsRoutes.put("/:ra", authenticateToken, StudentController.update);
+StudentsRoutes.delete("/:ra", authenticateToken, StudentController.deleteStudent);
 
 module.exports = StudentsRoutes;

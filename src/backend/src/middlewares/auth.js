@@ -17,7 +17,7 @@ function authenticateToken(req, res, next) {
 
   jwt.verify(jwtToken, process.env.JWT_SECRET, (err, decoded) => {
     if (err) {
-      return res.status(403).json({ message: "Invalid/expired Token." });
+      return res.status(403).json({ message: "Invalid/expired Token.", object: err });
     }
 
     req.user = decoded;
