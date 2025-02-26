@@ -19,7 +19,11 @@ const loginUser = async(username, password) => {
     throw new Error("Invalid User or Password.");
   }
 
-  const token = jwt.sign({ username: user.username }, process.env.JWT_SECRET, { expiresIn: 600000000000 });
+  const token = jwt.sign(
+    { username: user.username }, 
+    process.env.JWT_SECRET, 
+    { expiresIn: '60m' }
+  );
   return token;
 };
 
