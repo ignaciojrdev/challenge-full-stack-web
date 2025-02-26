@@ -12,4 +12,4 @@ const createUser = async (username, password, email) => {
   return await userRepository.save(user);
 };
 
-module.exports = { findUserByUsername, findUserByEmail, createUser };
+module.exports = { findUserByUsername, createUser };
