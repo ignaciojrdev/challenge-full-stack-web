@@ -35,11 +35,6 @@ const registerUser = async (username, password, email = 'Student') => {
     throw new Error("Username already exists.");
   }
 
-  const existingEmail = await authRepository.findUserByEmail(email);
-  if (existingEmail) {
-    throw new Error("Email already exists.");
-  }
-
   const hashedPassword = await bcrypt.hash(password, 10);
 
   const newUser = await authRepository.createUser(username, hashedPassword, email);
