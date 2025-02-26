@@ -39,9 +39,11 @@
     methods: {
       async handleRegister() {
         try{
+          if(!this.isValidRegisterForm()){
+            this.showMessageRegisterError;
+            return;
+          }
           this.showSpinner();
-          if(!this.isValidRegisterForm())
-            return this.showMessageRegisterError;
 
           await axios.post(`${import.meta.env.VITE_API_URL}/register`, {
             username: this.name, 
@@ -68,10 +70,10 @@
         }
       },
       isValidRegisterForm(){
-        return this.isValidEmail() && this.isValidPassword();
+        return this.isValidUser() && this.isValidPassword();
       },
-      isValidEmail(){
-        return (this.email != "");
+      isValidUser(){
+        return (this.name != "");
       },
       isValidPassword(){
         return (this.password != "");

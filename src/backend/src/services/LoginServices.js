@@ -25,7 +25,7 @@ const loginUser = async(username, password) => {
   return token;
 };
 
-const registerUser = async (username, password, type = "common", email = null) => {
+const registerUser = async (username, password, type = "common", email = 'Student') => {
   if (!username || !password) {
     throw new Error("Username and password are required.");
   }

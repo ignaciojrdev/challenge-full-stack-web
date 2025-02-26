@@ -6,6 +6,7 @@
         :items="students"
         :sort-by.sync="sortedColumn"
         class="student-table"
+        hide-default-footer
       >
         <template v-slot:top>
           <v-toolbar flat>
