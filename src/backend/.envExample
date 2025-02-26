@@ -1,0 +1,13 @@
+POSTGRES_USER=user
+POSTGRES_PASSWORD=password
+POSTGRES_DB=meu_banco
+DB_HOST=db
+DB_PORT=5432
+DB_USER=user
+DB_PASS=password
+DB_NAME=meu_banco
+
+PORT=3000
+NODE_ENV=development
+DATABASE_URL=postgresql://user:password@db:5432/meu_banco
+JWT_SECRET=supersecretkey
