@@ -4,21 +4,24 @@ const bcrypt = require("bcryptjs");
 
 require("dotenv").config();
 
-const authenticateUser = (username, password) => {
+const isWrongPassword = async(hash, input) => {
+  const test = await bcrypt.compare(input, hash);
+  return !test;
+}
+
+const loginUser = async(username, password) => {
   if (!username || !password) {
     throw new Error("Invalid User or Password.");
   }
-
-  const user = authRepository.findUserByUsername(username);
-
-  if (!user || user.password !== password) {
+  
+  const user = await authRepository.findUserByUsername(username);
+  if (!user || await isWrongPassword(user.password, password)) {
     throw new Error("Invalid User or Password.");
   }
 
   const token = jwt.sign({ username: user.username }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
-
   return token;
 };
 
@@ -37,13 +40,14 @@ const registerUser = async (username, password, type = "common", email = null) =
     throw new Error("Email already exists.");
   }
 
-  const hashedPassword = await bcrypt.hash(password, 10); // Criptografando a senha
+  const hashedPassword = await bcrypt.hash(password, 10);
 
   const newUser = await authRepository.createUser(username, hashedPassword, type, email);
   return newUser;
 };
 
 module.exports = { 
-  authenticateUser,
-  registerUser 
+  loginUser,
+  registerUser,
+  isWrongPassword
 };

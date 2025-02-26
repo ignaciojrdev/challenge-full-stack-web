@@ -6,20 +6,15 @@ import { showToast }  from "../utils/generics/toast.js";
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
-    token: Cookies.get('token') || '', 
-    user: null
+    token: Cookies.get('token') || ''
   }),
   actions: {
     setToken(token) {
       this.token = token
       Cookies.set('token', token, { expires: 7, secure: true, sameSite: 'Strict' })
     },
-    setUser(user) {
-      this.user = user
-    },
     logout() {
       this.token = ''
-      this.user = null
       Cookies.remove('token')
       router.push('/')
     },
@@ -38,18 +33,21 @@ export const useAuthStore = defineStore('auth', {
       try {
         this.showSpinner();
         this.token = token
-        // Simulação de requisição para obter o usuário logado (substitua pela API real)
-        /*const response = await fetch('/api/me', {
-          headers: { Authorization: `Bearer ${token}` }
-        })
-        if (response.ok) {
-          const userData = await response.json()
-          this.setUser(userData)
-        } else {
-          this.logout() // Remove token inválido
-        }*/
-        //criar backend aqui
-        this.user = {"email": "tetse@gmail.com"}
+
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/login/auth`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json"
+          }
+        });
+
+        if (!response.ok) {
+          this.showMessageCookieAuthError();
+          this.hideSpinner();
+          return this.logout()
+        }
+        
         setTimeout(() => {
           this.showMessageCookieAuthSuccess();
           this.hideSpinner();
@@ -73,7 +71,7 @@ export const useAuthStore = defineStore('auth', {
       showToast.success("Authenticated!");
     },
     showMessageCookieAuthError() {
-      showToast.success("Something wrong with your authentication. Log in again.");
+      showToast.error("You are not authenticated. Log in to see another modules.");
     }
   }
 })

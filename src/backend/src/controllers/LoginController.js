@@ -1,13 +1,17 @@
 const authService = require("../services/LoginServices");
 
-const login = (req, res) => {
+const login = async (req, res) => {
   try {
     const { username, password } = req.body;
-    const token = authService.authenticateUser(username, password);
-    res.json({ token });
+    const token = await authService.loginUser(username, password);
+    res.json({ "token": token });
   } catch (error) {
     res.status(401).json({ message: error.message });
   }
 };
 
-module.exports = { login };
+const auth = async (req, res) => {
+  res.json({ message: "Success"});
+};
+
+module.exports = { login, auth };
