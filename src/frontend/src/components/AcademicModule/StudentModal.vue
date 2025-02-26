@@ -141,24 +141,23 @@
       },
       closeModal() {
         this.$emit("update:show", false);
-        if(!this.editing && !this.deleting)
+        this.$emit("fetchStudents", true);
+        //if(!this.editing && !this.deleting)
           this.clearModal();
       },
       saveStudent() {
         this.closeModal();
         this.saveStudent();
-        this.$emit("fetchStudents", true);
       },
       deleteStudent(){
         this.closeModal();
         this.confirmDeleteStudent();
-        this.$emit("fetchStudents", true);
       },
       clearModal(){
-        this.form.name = ''
-        this.form.ra = ''
-        this.form.cpf = ''
-        this.form.email = ''
+        this.form.name = this.nameProp || ''
+        this.form.ra = this.raProp || ''
+        this.form.cpf = this.cpfProp || ''
+        this.form.email = this.emailProp || ''
       },
       async saveStudent() {
         try {
@@ -184,7 +183,6 @@
             this.showSavedMessageSuccess();
           }
           this.closeModal();
-          this.$emit("fetchStudents", true);
         } catch (error) {
           let message = '';
           if(error.response && error.response.data){
@@ -195,7 +193,6 @@
           this.showSaveMessageError(message);
         }
         this.closeModal();
-        this.$emit("fetchStudents", true);
       },
       async confirmDeleteStudent() {
         try {
@@ -218,7 +215,6 @@
           this.showSaveMessageError(message);
         }
         this.closeModal();
-        this.$emit("fetchStudents", true);
       },
       showMessageLoginSuccess() {
         showToast.success("Logged in with success!");
