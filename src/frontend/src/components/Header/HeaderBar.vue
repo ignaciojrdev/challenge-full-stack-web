@@ -8,9 +8,9 @@
 
     <nav :class="{ open: isOpen }">
       <router-link to="/" @click="closeMenu">Home</router-link>
-      <router-link v-if="!auth.user" to="/Login" @click="closeMenu">Login</router-link>
-      <router-link v-if="auth.user" to="/Academic" @click="closeMenu">Academic Module</router-link>
-      <button v-if="auth.user" class="logout-button" @click="logoutMenu">Logout</button>
+      <router-link v-if="!auth.token" to="/Login" @click="closeMenu">Login</router-link>
+      <router-link v-if="auth.token" to="/Academic" @click="closeMenu">Academic Module</router-link>
+      <button v-if="auth.token" class="logout-button" @click="logoutMenu">Logout</button>
     </nav>
   </div>
 </template>

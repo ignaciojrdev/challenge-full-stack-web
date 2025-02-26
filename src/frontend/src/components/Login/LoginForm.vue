@@ -4,7 +4,7 @@
       <v-card-title>Login</v-card-title>
       <v-card-text>
         <v-form @submit.prevent="handleLogin">
-          <v-text-field v-model="email" label="E-mail" type="email" required></v-text-field>
+          <v-text-field v-model="username" label="Username" type="text" required></v-text-field>
           <v-text-field v-model="password" label="Password" type="password" required></v-text-field>
           <v-btn type="submit" color="primary" block>Submit</v-btn>
         </v-form>
@@ -18,7 +18,7 @@ import { useAuthStore } from '../../stores/auth.js';
 import router from "../../router/index.js";
 import { showToast } from "../../utils/generics/toast.js";
 import { eventBus } from "../../events/eventBus.js";
-
+import axios from 'axios';
 export default {
   setup() {
     const auth = useAuthStore();
@@ -27,7 +27,7 @@ export default {
   name: "LoginForm",
   data() {
     return {
-      email: "",
+      username: "",
       password: "",
       errorMessage: "",
     };
@@ -35,14 +35,24 @@ export default {
   methods: {
     async handleLogin() {
       try {
-        this.showSpinner();
         if (!this.isValidLoginForm()) {
           this.showMessageLoginError();
           return;
         }
 
-        this.auth.setToken("sdnkfosdnkofsno");
-        this.auth.setUser({ email: this.email });
+        this.showSpinner();
+        
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/login`, {
+          username: this.username, 
+          password: this.password
+        },
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        this.auth.setToken(response.data.token);
         this.showMessageLoginSuccess();
         setTimeout(() => {
           this.hideSpinner();
@@ -50,7 +60,9 @@ export default {
         }, 2000);
       } catch (e) {
         this.hideSpinner();
-        this.showMessageGenericError();
+        if(e.response)
+          return this.showMessageGenericError(e.response.data.message);
+        return this.showMessageGenericError(e.message);
       }
     },
     isValidLoginForm() {
@@ -68,8 +80,8 @@ export default {
     showMessageLoginError() {
       showToast.error("Wrong email or password!");
     },
-    showMessageGenericError() {
-      showToast.error("Something is wrong!");
+    showMessageGenericError(message = '') {
+      showToast.error("Something is wrong! " + message);
     },
     showSpinner() {
       eventBus.emit("show-spinner", document.body);
