@@ -1,6 +1,7 @@
 require("dotenv").config();
 const { DataSource } = require("typeorm");
 const { User } = require("../entities/User");
+const { Student } = require("../entities/Student");
 
 const AppDataSource = new DataSource({
   type: "postgres",
@@ -9,9 +10,9 @@ const AppDataSource = new DataSource({
   username: process.env.DB_USER,
   password: process.env.DB_PASS,
   database: process.env.DB_NAME,
-  synchronize: true, // ⚠️ Somente para desenvolvimento
+  synchronize: false, // ⚠️ Somente para desenvolvimento
   logging: true,
-  entities: [User],
+  entities: [User, Student],
 });
 
 AppDataSource.initialize()

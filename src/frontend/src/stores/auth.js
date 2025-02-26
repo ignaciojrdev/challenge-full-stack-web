@@ -11,7 +11,7 @@ export const useAuthStore = defineStore('auth', {
   actions: {
     setToken(token) {
       this.token = token
-      Cookies.set('token', token, { expires: 7, secure: true, sameSite: 'Strict' })
+      Cookies.set('token', token, { expires: 60*60, secure: true, sameSite: 'Strict' })
     },
     logout() {
       this.token = ''
