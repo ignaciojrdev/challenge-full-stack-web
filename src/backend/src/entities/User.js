@@ -20,12 +20,7 @@ const User = new EntitySchema({
     },
     password: {
       type: "varchar",
-    },
-    type: {
-      type: "enum",
-      enum: ["Student", "Admin"],
-      default: "Student",
-    },
+    }
   },
 });
 

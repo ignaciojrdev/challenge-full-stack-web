@@ -7,7 +7,6 @@
           <v-text-field v-model="name" label="Name" required></v-text-field>
           <v-text-field v-model="email" label="E-mail" type="email" required></v-text-field>
           <v-text-field v-model="password" label="Password" type="password" required></v-text-field>
-          <v-select label="Tipo de Usuário" v-model="type" :items="['Student', 'Admin']" prepend-icon="mdi-account-group" required />
           <v-btn type="submit" color="primary" block>Submit</v-btn>
         </v-form>
       </v-card-text>
@@ -32,8 +31,7 @@
         name: "",
         email: "",
         password: "",
-        successMessage: "",
-        type: ""
+        successMessage: ""
       };
     },
     methods: {
