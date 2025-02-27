@@ -1,127 +1,148 @@
-+A Educação - Full Stack Web Developer
-===================
+# Projeto EdTech - Full Stack
 
-[![N|Solid](https://maisaedu.com.br/hubfs/site-grupo-a/logo-mais-a-educacao.svg)](https://maisaedu.com.br/) 
+## Descrição
+Este repositório contém o backend e frontend de um sistema desenvolvido com Node.js, Express, TypeORM, PostgreSQL, Vue 3 e Vuetify.
 
-O objetivo deste desafio é avaliar as competências técnicas dos candidatos a desenvolvedor Full Stack Web na Maior Plataforma de Educação do Brasil.
+## Pré-requisitos
+Antes de começar, certifique-se de ter os seguintes softwares instalados no seu computador:
+- **Node.js** (versão recomendada: 16 ou superior) - [Download](https://nodejs.org/)
+- **Git** - [Download](https://git-scm.com/)
+- **Docker** e **Docker Compose** - [Download](https://www.docker.com/)
+- **NPM** ou **Yarn** para gerenciamento de pacotes****
 
-Será solicitado o desenvolvimento de uma Aplicação que realize a Matrícula do Aluno na Turma de Programação Web da instituição Edtech. Regras e requisitos técnicos estão detalhadas neste documento.
+## Tecnologias Utilizadas
+### Backend
+- **Node.js**: Runtime JavaScript para o backend.
+- **Express**: Framework minimalista para APIs.
+- **TypeORM**: ORM para manipulação de banco de dados.
+- **PostgreSQL**: Banco de dados relacional.
+- **JWT (jsonwebtoken)**: Autenticação com tokens.
+- **Bcrypt.js**: Hash de senhas.
+- **Cors**: Controle de acessos entre domínios.
+- **Dotenv**: Gerenciamento de variáveis de ambiente.
+- **Jest e Supertest**: Testes automatizados.
 
-# Especificações Técnicas
-- **Front-end:**
-  - Framework JS: [Vue.js](https://vuejs.org/)
-  - Framework de UI: [Vuetify](https://vuetifyjs.com/)
-- **API:** NodeJS
-- **Banco de Dados:** Postgress ou MySQL
-- **Idioma de escrita do código:** Inglês
+### Frontend
+- **Vue 3**: Framework JavaScript para criação da interface.
+- **Vuetify**: Biblioteca de componentes UI baseada no Material Design.
+- **Vue Router**: Gerenciamento de rotas.
+- **Pinia**: Gerenciamento de estado.
+- **Axios**: Consumo de APIs.
+- **Mitt**: Event Emitter para comunicação entre componentes.
+- **Vite**: Ferramenta para build e desenvolvimento.
+- **JS-Cookie**: Manipulação de cookies.
+- **Vue3-toastify**: Notificações no frontend.
+- **V-Mask e Vue-the-mask**: Máscaras para formulários.
+- **Spin.js**: Indicadores de carregamento.
 
-# Requisitos
-## Contextualização
-Considere que uma Instituição de Ensino Superior precisa de uma solução para cadastrar e gerenciar matrículas de alunos em turmas online. Para realizar a matrícula, é necessário que o cadastro do aluno tenha sido realizado.
+## Instalação e Configuração
 
-O desafio consiste em criar uma aplicação para o cadastro de alunos conforme os critérios de aceitação.
+### Frontend
+1. Acesse o diretório do frontend dentro do projeto:
+   ```sh
+   cd frontend
+   ```
 
-## Mockups de interface
-A seguir, são apresentados alguns mockups de interface como um guia para a criação do front-end. Fique à vontade para usar sua criatividade na criação do front-end.
+2. Configure as variáveis de ambiente no arquivo `.env` (Use o .envExample para facilitar sua vida):
+   ```env
+   VITE_API_URL=http://localhost:3000
+   ```
 
-* Listagem de Alunos
-![Listagem de Alunos](/mockups/studants_list.png)
+3. Instale as dependências:
+   ```sh
+   npm install
+   ```
 
-* Criar/Editar Aluno
-![Listagem de Alunos](/mockups/studants_save.png)
+4. Inicie o servidor de desenvolvimento:
+   ```sh
+   npm run dev
+   ```
 
-## Histórias do Usuário
-- **Sendo** um usuário administrativo da Instituição
-- **Quero** gerenciar cadastros de alunos
-- **Para** que eu possa realizar a matrícula do aluno
+### Backend
+1. Vá até a raiz do projeto e e acesse o diretório do backend:
+   ```sh
+   cd backend
+   ```
 
-### Critérios de aceite: 
+2. Configure as variáveis de ambiente no arquivo `.env` (Use o .envExample para facilitar sua vida):
+   ```env
+   POSTGRES_USER=user
+   POSTGRES_PASSWORD=password
+   POSTGRES_DB=meu_banco
+   DB_HOST=db
+   DB_PORT=5432
+   DB_USER=user
+   DB_PASS=password
+   DB_NAME=meu_banco
+   
+   PORT=3000
+   NODE_ENV=development
+   DATABASE_URL=postgresql://user:password@db:5432/meu_banco
+   JWT_SECRET=supersecretkey
+   ```
 
-#### Cenário: Cadastrar novo aluno
-- **Dado** que estou na tela de Consulta de Alunos
-- **Quando** clico em Cadastrar Aluno
-- **Então** abre a tela de Cadastro do Aluno
-- **E** exibe os campos obrigatórios vazios
-####
-- **Dado** que inseri dados válidos nos campos
-- **Quando** clico em Salvar
-- **Então** cria o novo aluno na base
-- **E** retorna mensagem de sucesso
-####
-- **Dado** que inseri dados válidos nos campos
-- **Quando** clico em Cancelar
-- **Então** retorna para tela Consulta de Alunos
-- **E** não persiste a gravação dos dados no banco 
+3. Inicie os containers do banco e backend via Docker Compose, ele irá importar as dependências do projeto (Lembre-se de iniciar o docker desktop primeiro):
+   ```sh
+      docker-compose up -d
+   ```
 
-#### Cenário: Listar alunos cadastrados 
-- **Dado** que estou no Módulo Acadêmico
-- **Quando** clico no menu Alunos
-- **Então** abre a tela de Consulta de Alunos 
-- **E** exibe opção Cadastrar Aluno ao topo
-- **E** lista dados dos alunos cadastrados
-- **E** exibe opção Editar por aluno
-- **E** exibe opção Excluir por aluno
+4. Para execução dos testes, abra um novo terminal e vá até o backend novamente. Entre no container do backend, pois ele está conectado ao container do banco via rede interna do docker.
+   ```
+    docker exec -it meu_projeto_app sh
+   ```
+   Após isso, execute, de forma sequencial, os comandos abaixo e os testes de integração serão executados:
+   ```
+    npx jest Auth.test.js
+    npx jest Login.test.js
+    npx jest Register.test.js
+    npx jest Student.test.js
+   ```
 
-#### Cenário: Editar cadastro de aluno
-- **Dado** que estou na listagem de alunos
-- **Quando** clico em Editar aluno
-- **Então** abre a tela de Cadastro do Aluno 
-- **E** exibe os campos do cadastro preenchidos
-- **E** habilita alteração dos campos editáveis
-####
-- **Dado** que estou na tela de Cadastro do Aluno
-- **Quando** clica em Salvar
-- **Então** grava os dados editáveis na base
-####
-- **Dado** que estou na tela de Cadastro do Aluno
-- **Quando** clica em Cancelar
-- **Então** retorna para a tela de Consulta de Alunos
-- **E** não persiste a gravação dos dados
+### Após isso, vá até `http://localhost:5173/` e a aplicação estará em execução pronta para ser utilizada.
 
-#### Cenário: Excluir cadastro de aluno
-- **Dado** que estou na listagem de alunos
-- **Quando** clico em Excluir aluno
-- **Então** exibe a modal de confirmação de exclusão
-####
-- **Dado** que estou na modal de confirmação de exclusão 
-- **Quando** clico em Confirmar
-- **Então** então exclui o registro do aluno
-####
-- **Dado** que estou na modal de confirmação de exclusão
-- **Quando** clico em Cancelar
-- **Então** então fecha a modal e não persiste a exclusão
+## Estrutura do Projeto
+```
+📦 challenge-full-stack-web
+ ┣ 📂 backend
+ ┃ ┣ 📂 src
+ ┃ ┃ ┣ 📂 config
+ ┃ ┃ ┣ 📂 controllers
+ ┃ ┃ ┣ 📂 entities
+ ┃ ┃ ┣ 📂 middlewares
+ ┃ ┃ ┣ 📂 repositories
+ ┃ ┃ ┣ 📂 routes
+ ┃ ┃ ┣ 📂 services
+ ┃ ┃ ┣ 📂 tests
+ ┃ ┃ ┣ app.js
+ ┃ ┃ ┣ server.js
+ ┃ ┣ package.json
+ ┃ ┣ .env
+ ┃ ┣ .gitignore
+ ┃ ┣ dockerfile
+ ┃ ┣ docker-compose.yml
 
-## Campos obrigatórios:
-- **Nome** (editável)
-- **Email** (editável)
-- **RA** (não editável) (chave única)
-- **CPF** (não editável)
+ ┣ 📂 frontend
+ ┃ ┣ 📂 public
+ ┃ ┣ 📂 src
+ ┃ ┃ ┣ 📂 assets
+ ┃ ┃ ┣ 📂 components
+ ┃ ┃ ┣ 📂 router
+ ┃ ┃ ┣ 📂 stores
+ ┃ ┃ ┣ 📂 utils
+ ┃ ┃ ┣ 📂 views
+ ┃ ┃ ┣ App.vue
+ ┃ ┃ ┣ main.js
+ ┃ ┃ ┣ style.css
+ ┃ ┣ package.json
+ ┃ ┣ vite.config.js
+ ┣ README.md
+```
 
-# Critérios de avaliação
-- Qualidade de escrita do código
-- Organização do projeto
-- Qualidade da API
-- Lógica da solução implementada
-- Qualidade da camada de persistência
-- Utilização do Git (quantidade e descrição dos commits, Git Flow, ...)
-- Validações
-- Tratamento de erros
-- Padrões de projeto e arquitetura
+## Contribuição
+1. Faça um fork do projeto.
+2. Crie uma nova branch (`git checkout -b feature/nova-feature`).
+3. Commit suas mudanças (`git commit -m 'Adiciona nova feature'`).
+4. Faça um push para a branch (`git push origin feature/nova-feature`).
+5. Abra um Pull Request.
 
-# Desejável
-- Testes de unidade
-- Documentação da arquitetura de solução
-
-# Diferenciais
-- Segurança da aplicação (autenticação, autorização, ...)
-
-# Instruções de entrega
-1. Crie um fork do repositório no seu GitHub
-2. Faça o push do código desenvolvido no seu Github
-3. Inclua um arquivo chamado COMMENTS.md explicando
-    - Decisão da arquitetura utilizada
-    - Lista de bibliotecas de terceiros utilizadas
-    - O que você melhoraria se tivesse mais tempo
-    - Quais requisitos obrigatórios que não foram entregues
-4. Informe ao recrutador quando concluir o desafio junto com o link do repositório
-5. Após revisão do projeto junto com a equipe de desevolvimento deixe seu repositório privado
+# Muito obrigado e até mais!
