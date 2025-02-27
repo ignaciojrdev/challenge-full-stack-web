@@ -1,4 +1,3 @@
-
 # Projeto EdTech - Full Stack
 
 ## Descrição
@@ -6,7 +5,6 @@ Este repositório contém o backend e frontend de um sistema desenvolvido com No
 
 ## Pré-requisitos
 Antes de começar, certifique-se de ter os seguintes softwares instalados no seu computador:
-
 - **Node.js** (versão recomendada: 16 ou superior) - [Download](https://nodejs.org/)
 - **Git** - [Download](https://git-scm.com/)
 - **Docker** e **Docker Compose** - [Download](https://www.docker.com/)
@@ -39,44 +37,35 @@ Antes de começar, certifique-se de ter os seguintes softwares instalados no seu
 
 ## Instalação e Configuração
 
-3. Configure as variáveis de ambiente no arquivo .env:
-   
-env
-   DATABASE_URL=postgres://user:password@localhost:5432/database
-   JWT_SECRET=seu_token_secreto
-
-
 ### Frontend
 1. Acesse o diretório do frontend dentro do projeto:
-   
-sh
+   ```sh
    cd frontend
+   ```
 
-2. Configure as variáveis de ambiente no arquivo .env (Use o .envExample para facilitar sua vida):
-   
-env
+2. Configure as variáveis de ambiente no arquivo `.env` (Use o .envExample para facilitar sua vida):
+   ```env
    VITE_API_URL=http://localhost:3000
+   ```
 
 3. Instale as dependências:
-   
-sh
+   ```sh
    npm install
+   ```
 
 4. Inicie o servidor de desenvolvimento:
-   
-sh
+   ```sh
    npm run dev
-
+   ```
 
 ### Backend
 1. Vá até a raiz do projeto e e acesse o diretório do backend:
-   
-sh
+   ```sh
    cd backend
+   ```
 
-2. Configure as variáveis de ambiente no arquivo .env (Use o .envExample para facilitar sua vida):
-   
-env
+2. Configure as variáveis de ambiente no arquivo `.env` (Use o .envExample para facilitar sua vida):
+   ```env
    POSTGRES_USER=user
    POSTGRES_PASSWORD=password
    POSTGRES_DB=meu_banco
@@ -90,15 +79,30 @@ env
    NODE_ENV=development
    DATABASE_URL=postgresql://user:password@db:5432/meu_banco
    JWT_SECRET=supersecretkey
+   ```
 
 3. Inicie os containers do banco e backend via Docker Compose, ele irá importar as dependências do projeto (Lembre-se de iniciar o docker desktop primeiro):
-   
-sh
+   ```sh
       docker-compose up -d
+   ```
 
+4. Para execução dos testes, abra um novo terminal e vá até o backend novamente. Entre no container do backend, pois ele está conectado ao container do banco via rede interna do docker.
+   ```
+    docker exec -it meu_projeto_app sh
+   ```
+   Após isso, execute, de forma sequencial, os comandos abaixo e os testes de integração serão executados:
+   ```
+    npx jest Auth.test.js
+    npx jest Login.test.js
+    npx jest Register.test.js
+    npx jest Student.test.js
+   ```
+
+### Após isso, vá até `http://localhost:5173/` e a aplicação estará em execução pronta para ser utilizada.
 
 ## Estrutura do Projeto
-📦 projeto
+```
+📦 challenge-full-stack-web
  ┣ 📂 backend
  ┃ ┣ 📂 src
  ┃ ┃ ┣ 📂 config
@@ -132,14 +136,13 @@ sh
  ┃ ┣ package.json
  ┃ ┣ vite.config.js
  ┣ README.md
-
+```
 
 ## Contribuição
 1. Faça um fork do projeto.
-2. Crie uma nova branch (git checkout -b feature/nova-feature).
-3. Commit suas mudanças (git commit -m 'Adiciona nova feature').
-4. Faça um push para a branch (git push origin feature/nova-feature).
+2. Crie uma nova branch (`git checkout -b feature/nova-feature`).
+3. Commit suas mudanças (`git commit -m 'Adiciona nova feature'`).
+4. Faça um push para a branch (`git push origin feature/nova-feature`).
 5. Abra um Pull Request.
 
-## Licença
-Este projeto está sob a licença MIT. crie uma seção antes das tecnologias utilizadas indicando o que a pessoa precisa ter instalado no computador. Ex: node, git, docker, etc
+# Muito obrigado e até mais!
