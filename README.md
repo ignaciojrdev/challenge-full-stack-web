@@ -1,127 +1,112 @@
-+A Educação - Full Stack Web Developer
-===================
+# Projeto
 
-[![N|Solid](https://maisaedu.com.br/hubfs/site-grupo-a/logo-mais-a-educacao.svg)](https://maisaedu.com.br/) 
+## Descrição
+Este repositório contém o backend e frontend de um sistema desenvolvido com Node.js, Express, TypeORM, PostgreSQL, Vue 3 e Vuetify.
 
-O objetivo deste desafio é avaliar as competências técnicas dos candidatos a desenvolvedor Full Stack Web na Maior Plataforma de Educação do Brasil.
+## Tecnologias Utilizadas
+### Backend
+- **Node.js**: Runtime JavaScript para o backend.
+- **Express**: Framework minimalista para APIs.
+- **TypeORM**: ORM para manipulação de banco de dados.
+- **PostgreSQL**: Banco de dados relacional.
+- **JWT (jsonwebtoken)**: Autenticação com tokens.
+- **Bcrypt.js**: Hash de senhas.
+- **Cors**: Controle de acessos entre domínios.
+- **Dotenv**: Gerenciamento de variáveis de ambiente.
+- **Jest e Supertest**: Testes automatizados.
 
-Será solicitado o desenvolvimento de uma Aplicação que realize a Matrícula do Aluno na Turma de Programação Web da instituição Edtech. Regras e requisitos técnicos estão detalhadas neste documento.
+### Frontend
+- **Vue 3**: Framework JavaScript para criação da interface.
+- **Vuetify**: Biblioteca de componentes UI baseada no Material Design.
+- **Vue Router**: Gerenciamento de rotas.
+- **Pinia**: Gerenciamento de estado.
+- **Axios**: Consumo de APIs.
+- **Mitt**: Event Emitter para comunicação entre componentes.
+- **Vite**: Ferramenta para build e desenvolvimento.
+- **JS-Cookie**: Manipulação de cookies.
+- **Vue3-toastify**: Notificações no frontend.
+- **V-Mask e Vue-the-mask**: Máscaras para formulários.
+- **Spin.js**: Indicadores de carregamento.
 
-# Especificações Técnicas
-- **Front-end:**
-  - Framework JS: [Vue.js](https://vuejs.org/)
-  - Framework de UI: [Vuetify](https://vuetifyjs.com/)
-- **API:** NodeJS
-- **Banco de Dados:** Postgress ou MySQL
-- **Idioma de escrita do código:** Inglês
+## Instalação e Configuração
 
-# Requisitos
-## Contextualização
-Considere que uma Instituição de Ensino Superior precisa de uma solução para cadastrar e gerenciar matrículas de alunos em turmas online. Para realizar a matrícula, é necessário que o cadastro do aluno tenha sido realizado.
+### Backend
+1. Clone o repositório e acesse o diretório do backend:
+   ```sh
+   git clone <repo_url>
+   cd backend
+   ```
+2. Instale as dependências:
+   ```sh
+   npm install
+   ```
+3. Configure as variáveis de ambiente no arquivo `.env`:
+   ```env
+   DATABASE_URL=postgres://user:password@localhost:5432/database
+   JWT_SECRET=seu_token_secreto
+   ```
+4. Execute a aplicação:
+   ```sh
+   npm start
+   ```
 
-O desafio consiste em criar uma aplicação para o cadastro de alunos conforme os critérios de aceitação.
+### Frontend
+1. Acesse o diretório do frontend:
+   ```sh
+   cd frontend
+   ```
+2. Instale as dependências:
+   ```sh
+   npm install
+   ```
+3. Inicie o servidor de desenvolvimento:
+   ```sh
+   npm run dev
+   ```
 
-## Mockups de interface
-A seguir, são apresentados alguns mockups de interface como um guia para a criação do front-end. Fique à vontade para usar sua criatividade na criação do front-end.
+## Scripts
 
-* Listagem de Alunos
-![Listagem de Alunos](/mockups/studants_list.png)
+### Backend
+- `npm start` – Inicia o servidor.
+- `npm test` – Executa os testes.
 
-* Criar/Editar Aluno
-![Listagem de Alunos](/mockups/studants_save.png)
+### Frontend
+- `npm run dev` – Inicia o servidor de desenvolvimento.
+- `npm run build` – Gera a versão de produção.
+- `npm run preview` – Visualiza o build gerado.
 
-## Histórias do Usuário
-- **Sendo** um usuário administrativo da Instituição
-- **Quero** gerenciar cadastros de alunos
-- **Para** que eu possa realizar a matrícula do aluno
+## Estrutura do Projeto
+```
+📦 projeto
+ ┣ 📂 backend
+ ┃ ┣ 📂 src
+ ┃ ┃ ┣ 📂 controllers
+ ┃ ┃ ┣ 📂 entities
+ ┃ ┃ ┣ 📂 middlewares
+ ┃ ┃ ┣ 📂 repositories
+ ┃ ┃ ┣ 📂 routes
+ ┃ ┃ ┣ 📂 services
+ ┃ ┃ ┣ index.ts
+ ┃ ┣ package.json
+ ┃ ┣ tsconfig.json
+ ┣ 📂 frontend
+ ┃ ┣ 📂 src
+ ┃ ┃ ┣ 📂 components
+ ┃ ┃ ┣ 📂 pages
+ ┃ ┃ ┣ 📂 router
+ ┃ ┃ ┣ 📂 store
+ ┃ ┃ ┣ 📂 utils
+ ┃ ┣ package.json
+ ┃ ┣ vite.config.js
+ ┣ README.md
+```
 
-### Critérios de aceite: 
+## Contribuição
+1. Faça um fork do projeto.
+2. Crie uma nova branch (`git checkout -b feature/nova-feature`).
+3. Commit suas mudanças (`git commit -m 'Adiciona nova feature'`).
+4. Faça um push para a branch (`git push origin feature/nova-feature`).
+5. Abra um Pull Request.
 
-#### Cenário: Cadastrar novo aluno
-- **Dado** que estou na tela de Consulta de Alunos
-- **Quando** clico em Cadastrar Aluno
-- **Então** abre a tela de Cadastro do Aluno
-- **E** exibe os campos obrigatórios vazios
-####
-- **Dado** que inseri dados válidos nos campos
-- **Quando** clico em Salvar
-- **Então** cria o novo aluno na base
-- **E** retorna mensagem de sucesso
-####
-- **Dado** que inseri dados válidos nos campos
-- **Quando** clico em Cancelar
-- **Então** retorna para tela Consulta de Alunos
-- **E** não persiste a gravação dos dados no banco 
-
-#### Cenário: Listar alunos cadastrados 
-- **Dado** que estou no Módulo Acadêmico
-- **Quando** clico no menu Alunos
-- **Então** abre a tela de Consulta de Alunos 
-- **E** exibe opção Cadastrar Aluno ao topo
-- **E** lista dados dos alunos cadastrados
-- **E** exibe opção Editar por aluno
-- **E** exibe opção Excluir por aluno
-
-#### Cenário: Editar cadastro de aluno
-- **Dado** que estou na listagem de alunos
-- **Quando** clico em Editar aluno
-- **Então** abre a tela de Cadastro do Aluno 
-- **E** exibe os campos do cadastro preenchidos
-- **E** habilita alteração dos campos editáveis
-####
-- **Dado** que estou na tela de Cadastro do Aluno
-- **Quando** clica em Salvar
-- **Então** grava os dados editáveis na base
-####
-- **Dado** que estou na tela de Cadastro do Aluno
-- **Quando** clica em Cancelar
-- **Então** retorna para a tela de Consulta de Alunos
-- **E** não persiste a gravação dos dados
-
-#### Cenário: Excluir cadastro de aluno
-- **Dado** que estou na listagem de alunos
-- **Quando** clico em Excluir aluno
-- **Então** exibe a modal de confirmação de exclusão
-####
-- **Dado** que estou na modal de confirmação de exclusão 
-- **Quando** clico em Confirmar
-- **Então** então exclui o registro do aluno
-####
-- **Dado** que estou na modal de confirmação de exclusão
-- **Quando** clico em Cancelar
-- **Então** então fecha a modal e não persiste a exclusão
-
-## Campos obrigatórios:
-- **Nome** (editável)
-- **Email** (editável)
-- **RA** (não editável) (chave única)
-- **CPF** (não editável)
-
-# Critérios de avaliação
-- Qualidade de escrita do código
-- Organização do projeto
-- Qualidade da API
-- Lógica da solução implementada
-- Qualidade da camada de persistência
-- Utilização do Git (quantidade e descrição dos commits, Git Flow, ...)
-- Validações
-- Tratamento de erros
-- Padrões de projeto e arquitetura
-
-# Desejável
-- Testes de unidade
-- Documentação da arquitetura de solução
-
-# Diferenciais
-- Segurança da aplicação (autenticação, autorização, ...)
-
-# Instruções de entrega
-1. Crie um fork do repositório no seu GitHub
-2. Faça o push do código desenvolvido no seu Github
-3. Inclua um arquivo chamado COMMENTS.md explicando
-    - Decisão da arquitetura utilizada
-    - Lista de bibliotecas de terceiros utilizadas
-    - O que você melhoraria se tivesse mais tempo
-    - Quais requisitos obrigatórios que não foram entregues
-4. Informe ao recrutador quando concluir o desafio junto com o link do repositório
-5. Após revisão do projeto junto com a equipe de desevolvimento deixe seu repositório privado
+## Licença
+Este projeto está sob a licença MIT.
