@@ -1,7 +1,15 @@
-# Projeto
+# Projeto EdTech - Full Stack
 
 ## Descrição
 Este repositório contém o backend e frontend de um sistema desenvolvido com Node.js, Express, TypeORM, PostgreSQL, Vue 3 e Vuetify.
+
+## Pré-requisitos
+Antes de começar, certifique-se de ter os seguintes softwares instalados no seu computador:
+
+- **Node.js** (versão recomendada: 16 ou superior) - [Download](https://nodejs.org/)
+- **Git** - [Download](https://git-scm.com/)
+- **Docker** e **Docker Compose** - [Download](https://www.docker.com/)
+- **NPM** ou **Yarn** para gerenciamento de pacotes****
 
 ## Tecnologias Utilizadas
 ### Backend
@@ -30,72 +38,89 @@ Este repositório contém o backend e frontend de um sistema desenvolvido com No
 
 ## Instalação e Configuração
 
-### Backend
-1. Clone o repositório e acesse o diretório do backend:
-   ```sh
-   git clone <repo_url>
-   cd backend
-   ```
-2. Instale as dependências:
-   ```sh
-   npm install
-   ```
 3. Configure as variáveis de ambiente no arquivo `.env`:
    ```env
    DATABASE_URL=postgres://user:password@localhost:5432/database
    JWT_SECRET=seu_token_secreto
    ```
-4. Execute a aplicação:
-   ```sh
-   npm start
-   ```
 
 ### Frontend
-1. Acesse o diretório do frontend:
+1. Acesse o diretório do frontend dentro do projeto:
    ```sh
    cd frontend
    ```
-2. Instale as dependências:
+2. Configure as variáveis de ambiente no arquivo `.env` (Use o .envExample para facilitar sua vida):
+   ```env
+   VITE_API_URL=http://localhost:3000
+   ```
+3. Instale as dependências:
    ```sh
    npm install
    ```
-3. Inicie o servidor de desenvolvimento:
+4. Inicie o servidor de desenvolvimento:
    ```sh
    npm run dev
    ```
 
-## Scripts
-
 ### Backend
-- `npm start` – Inicia o servidor.
-- `npm test` – Executa os testes.
-
-### Frontend
-- `npm run dev` – Inicia o servidor de desenvolvimento.
-- `npm run build` – Gera a versão de produção.
-- `npm run preview` – Visualiza o build gerado.
+1. Vá até a raiz do projeto e e acesse o diretório do backend:
+   ```sh
+   cd backend
+   ```
+2. Configure as variáveis de ambiente no arquivo `.env` (Use o .envExample para facilitar sua vida):
+   ```env
+   POSTGRES_USER=user
+   POSTGRES_PASSWORD=password
+   POSTGRES_DB=meu_banco
+   DB_HOST=db
+   DB_PORT=5432
+   DB_USER=user
+   DB_PASS=password
+   DB_NAME=meu_banco
+   
+   PORT=3000
+   NODE_ENV=development
+   DATABASE_URL=postgresql://user:password@db:5432/meu_banco
+   JWT_SECRET=supersecretkey
+   ```
+3. Inicie os containers do banco e backend via Docker Compose, ele irá importar as dependências do projeto (Lembre-se de iniciar o docker desktop primeiro):
+   ```sh
+      docker-compose up -d
+   ```
 
 ## Estrutura do Projeto
 ```
 📦 projeto
  ┣ 📂 backend
  ┃ ┣ 📂 src
+ ┃ ┃ ┣ 📂 config
  ┃ ┃ ┣ 📂 controllers
  ┃ ┃ ┣ 📂 entities
  ┃ ┃ ┣ 📂 middlewares
  ┃ ┃ ┣ 📂 repositories
  ┃ ┃ ┣ 📂 routes
  ┃ ┃ ┣ 📂 services
- ┃ ┃ ┣ index.ts
+ ┃ ┃ ┣ 📂 tests
+ ┃ ┃ ┣ app.js
+ ┃ ┃ ┣ server.js
  ┃ ┣ package.json
- ┃ ┣ tsconfig.json
+ ┃ ┣ .env
+ ┃ ┣ .gitignore
+ ┃ ┣ dockerfile
+ ┃ ┣ docker-compose.yml
+
  ┣ 📂 frontend
+ ┃ ┣ 📂 public
  ┃ ┣ 📂 src
+ ┃ ┃ ┣ 📂 assets
  ┃ ┃ ┣ 📂 components
- ┃ ┃ ┣ 📂 pages
  ┃ ┃ ┣ 📂 router
- ┃ ┃ ┣ 📂 store
+ ┃ ┃ ┣ 📂 stores
  ┃ ┃ ┣ 📂 utils
+ ┃ ┃ ┣ 📂 views
+ ┃ ┃ ┣ App.vue
+ ┃ ┃ ┣ main.js
+ ┃ ┃ ┣ style.css
  ┃ ┣ package.json
  ┃ ┣ vite.config.js
  ┣ README.md
