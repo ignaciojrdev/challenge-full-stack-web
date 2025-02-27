@@ -37,6 +37,12 @@ Antes de começar, certifique-se de ter os seguintes softwares instalados no seu
 
 ## Instalação e Configuração
 
+### Vá até o terminal e execute os comandos abaixo para clonar o repositório e acessar a pasta do projeto:
+   ```sh
+   git clone https://github.com/ignaciojrdev/challenge-full-stack-web.git
+   cd challenge-full-stack-web/src
+   ```
+
 ### Frontend
 1. Acesse o diretório do frontend dentro do projeto:
    ```sh
